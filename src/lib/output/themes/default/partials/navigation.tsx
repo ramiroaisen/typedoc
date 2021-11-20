@@ -133,7 +133,7 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
             const current = inPathTree(item, props.model);
             return (
                 <li class={classNames({ current }) + " tsd-kind-module"}>
-                    <a style="text-decoration: none !important; cursor: unset !important">{wbr(item.dirname)}</a>
+                    <a style="text-decoration: none !important; cursor: unset !important">📂 {wbr(item.dirname)}</a>
                     <ul>
                         {item.children.map(linkTree)}
                     </ul>

@@ -89,7 +89,9 @@ function primaryNavigation(context, props) {
         else {
             const current = inPathTree(item, props.model);
             return (utils_1.JSX.createElement("li", { class: (0, lib_1.classNames)({ current }) + " tsd-kind-module" },
-                utils_1.JSX.createElement("a", { style: "text-decoration: none !important; cursor: unset !important" }, (0, lib_1.wbr)(item.dirname)),
+                utils_1.JSX.createElement("a", { style: "text-decoration: none !important; cursor: unset !important" },
+                    "\uD83D\uDCC2 ",
+                    (0, lib_1.wbr)(item.dirname)),
                 utils_1.JSX.createElement("ul", null, item.children.map(linkTree))));
         }
     }
