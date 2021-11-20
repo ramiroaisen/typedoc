@@ -10,6 +10,10 @@ function navigation(context, props) {
         secondaryNavigation(context, props)));
 }
 exports.navigation = navigation;
+const folderIcon = () => {
+    return (utils_1.JSX.createElement("svg", { style: "width:24px;height:24px", viewBox: "0 0 24 24" },
+        utils_1.JSX.createElement("path", { fill: "currentColor", d: "M6.1,10L4,18V8H21A2,2 0 0,0 19,6H12L10,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H19C19.9,20 20.7,19.4 20.9,18.5L23.2,10H6.1M19,18H6L7.6,12H20.6L19,18Z" })));
+};
 const makeTree = (modules) => {
     const tree = [];
     for (const module of modules) {
@@ -90,7 +94,8 @@ function primaryNavigation(context, props) {
             const current = inPathTree(item, props.model);
             return (utils_1.JSX.createElement("li", { class: (0, lib_1.classNames)({ current }) + " tsd-kind-module" },
                 utils_1.JSX.createElement("a", { style: "text-decoration: none !important; cursor: unset !important" },
-                    "\uD83D\uDCC2 ",
+                    folderIcon(),
+                    " ",
                     (0, lib_1.wbr)(item.dirname)),
                 utils_1.JSX.createElement("ul", null, item.children.map(linkTree))));
         }
