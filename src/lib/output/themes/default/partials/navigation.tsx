@@ -13,6 +13,44 @@ export function navigation(context: DefaultThemeRenderContext, props: PageEvent<
     );
 }
 
+type TreeItemDir = {
+    type: "dir",
+    dirname: string
+    children: TreeItem[]
+}
+
+type TreeItemModule = {
+    type: "module",
+    filename: string
+    module: DeclarationReflection
+}
+
+type TreeItem = TreeItemDir | TreeItemModule;
+
+const makeTree = (modules: DeclarationReflection[]): TreeItem[] => {
+    const tree: TreeItem[] = [];
+    for(const module of modules) {
+        const dirnames = module.name.split("/");
+        const filename = dirnames.pop()!;
+        let current = tree;
+        for(const dirname of dirnames) {
+            let entry = current.find(item => item.type === "dir" && item.dirname === dirname) as TreeItemDir | undefined;
+            if(entry == null) {
+                entry = { type: "dir", dirname, children: [] }
+                current.push(entry);
+            }
+            current = entry.children;
+        }
+        current.push({
+            type: "module",
+            filename,
+            module
+        })
+    }
+
+    return tree;
+}
+
 function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<Reflection>) {
     // Create the navigation for the current page:
     // If there are modules marked as "external" then put them in their own group.
@@ -22,6 +60,8 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
 
     const [ext, int] = partition(modules, (m) => m.flags.isExternal);
 
+    const intTree = makeTree(int);
+
     if (ext.length === 0) {
         return (
             <nav class="tsd-navigation primary">
@@ -29,7 +69,7 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
                     <li class={classNames({ current: props.model.isProject() })}>
                         <a href={context.urlTo(props.model.project)}>{projectLinkName}</a>
                     </li>
-                    {int.map(link)}
+                    {intTree.map(linkTree)}
                 </ul>
             </nav>
         );
@@ -69,6 +109,37 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
                 {childNav}
             </li>
         );
+    }
+
+    function linkTree(item: TreeItem) {
+        if(item.type === "module") {
+            const mod = item.module;
+            const current = inPath(mod, props.model);
+            let childNav: JSX.Element | undefined;
+            if(current) {
+                const childModules = mod.children?.filter((m) => m.kindOf(ReflectionKind.SomeModule));
+                if(childModules?.length) {
+                    childNav = <ul>{childModules.map(link)}</ul>
+                }
+            }
+
+            return (
+                <li class={classNames({ current }) + " " + mod.cssClasses}>
+                    <a href={context.urlTo(mod)}>{wbr(item.filename)}</a>
+                    {childNav}
+                </li>
+            )
+        } else {
+            const current = inPathTree(item, props.model);
+            return (
+                <li class={classNames({ current }) + " tsd-kind-module"}>
+                    <a style="text-decoration: none !important; cursor: unset !important">{wbr(item.dirname)}</a>
+                    <ul>
+                        {item.children.map(linkTree)}
+                    </ul>
+                </li>
+            )
+        }
     }
 }
 
@@ -131,4 +202,13 @@ function inPath(thisPage: Reflection, toCheck: Reflection | undefined): boolean 
     }
 
     return false;
+}
+
+
+function inPathTree(item: TreeItem, toCheck: Reflection | undefined): boolean {
+    if(item.type === "dir") {
+        return item.children.some(item => inPathTree(item, toCheck));
+    } else {
+        return inPath(item.module, toCheck);
+    } 
 }
