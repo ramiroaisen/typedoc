@@ -28,7 +28,7 @@
     "shiki": "^0.9.12"
   },
   "peerDependencies": {
-    "typescript": "4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x"
+    "typescript": "4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x || 4.5.x"
   },
   "devDependencies": {
     "@types/glob": "^7.2.0",
@@ -78,7 +78,8 @@
     "lint": "eslint . && npm run prettier -- --check .",
     "prettier": "prettier --config .config/.prettierrc.json --ignore-path .config/.prettierignore",
     "prepublishOnly": "node scripts/set_strict.js false && npm run build:prod && npm test",
-    "postpublish": "node scripts/set_strict.js true"
+    "postpublish": "node scripts/set_strict.js true",
+    "postinstall": "npm run build"
   },
   "keywords": [
     "typescript",
