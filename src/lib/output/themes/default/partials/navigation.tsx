@@ -113,7 +113,7 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
 
         return (
             <li class={classNames({ current }) + " " + mod.cssClasses}>
-                <a href={context.urlTo(mod)}>{wbr(mod.name)}</a>
+                <a href={context.urlTo(mod)}>» {wbr(mod.name)}</a>
                 {childNav}
             </li>
         );

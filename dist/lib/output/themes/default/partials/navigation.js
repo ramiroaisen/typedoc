@@ -71,7 +71,9 @@ function primaryNavigation(context, props) {
             }
         }
         return (utils_1.JSX.createElement("li", { class: (0, lib_1.classNames)({ current }) + " " + mod.cssClasses },
-            utils_1.JSX.createElement("a", { href: context.urlTo(mod) }, (0, lib_1.wbr)(mod.name)),
+            utils_1.JSX.createElement("a", { href: context.urlTo(mod) },
+                "\u00BB ",
+                (0, lib_1.wbr)(mod.name)),
             childNav));
     }
     function linkTree(item) {
