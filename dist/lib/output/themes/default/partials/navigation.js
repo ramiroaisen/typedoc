@@ -56,7 +56,7 @@ function primaryNavigation(context, props) {
                 utils_1.JSX.createElement("a", { href: context.urlTo(props.model.project) }, projectLinkName)),
             utils_1.JSX.createElement("li", { class: "label tsd-is-external" },
                 utils_1.JSX.createElement("span", null, "Internals")),
-            int.map(link),
+            intTree.map(linkTree),
             utils_1.JSX.createElement("li", { class: "label tsd-is-external" },
                 utils_1.JSX.createElement("span", null, "Externals")),
             ext.map(link))));
@@ -72,7 +72,7 @@ function primaryNavigation(context, props) {
         }
         return (utils_1.JSX.createElement("li", { class: (0, lib_1.classNames)({ current }) + " " + mod.cssClasses },
             utils_1.JSX.createElement("a", { href: context.urlTo(mod) },
-                "\u00BB ",
+                "\u00B7 ",
                 (0, lib_1.wbr)(mod.name)),
             childNav));
     }
@@ -89,7 +89,9 @@ function primaryNavigation(context, props) {
                 }
             }
             return (utils_1.JSX.createElement("li", { class: (0, lib_1.classNames)({ current }) + " " + mod.cssClasses },
-                utils_1.JSX.createElement("a", { href: context.urlTo(mod) }, (0, lib_1.wbr)(item.filename)),
+                utils_1.JSX.createElement("a", { href: context.urlTo(mod) },
+                    "\u00B7 ",
+                    (0, lib_1.wbr)(item.filename)),
                 childNav));
         }
         else {

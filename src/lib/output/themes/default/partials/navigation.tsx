@@ -92,7 +92,7 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
                 <li class="label tsd-is-external">
                     <span>Internals</span>
                 </li>
-                {int.map(link)}
+                {intTree.map(linkTree)}
                 <li class="label tsd-is-external">
                     <span>Externals</span>
                 </li>
@@ -113,7 +113,7 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
 
         return (
             <li class={classNames({ current }) + " " + mod.cssClasses}>
-                <a href={context.urlTo(mod)}>» {wbr(mod.name)}</a>
+                <a href={context.urlTo(mod)}>· {wbr(mod.name)}</a>
                 {childNav}
             </li>
         );
@@ -133,7 +133,7 @@ function primaryNavigation(context: DefaultThemeRenderContext, props: PageEvent<
 
             return (
                 <li class={classNames({ current }) + " " + mod.cssClasses}>
-                    <a href={context.urlTo(mod)}>{wbr(item.filename)}</a>
+                    <a href={context.urlTo(mod)}>· {wbr(item.filename)}</a>
                     {childNav}
                 </li>
             )
